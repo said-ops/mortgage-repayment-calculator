@@ -73,27 +73,34 @@ submitButton.addEventListener('click', function (event) {
     //mortgage calclu depending on type
     //repayment
     function repaymentType(){
-        let p=amount.value;
-        let r=rate.value/1200;
-        let n=term.value*12;
-        let monthlyPay=(r*p*Math.pow(1+r,n))/Math.pow(1+r,n)-1;
+        let p = parseFloat(amount.value);
+        let r = parseFloat(rate.value) / 1200;
+        let n = parseInt(term.value) * 12;
+        let monthlyPay = (r * p * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
         let termPay = monthlyPay*n;
 
         radios.forEach(radio => {
-            if(radio.value === 'repayment'){
-                monthlyResult.textContent = '£' + monthlyPay.toFixed(2);
-                total.textContent ='£' + termPay.toFixed(2);
-                resultEmpty.classList.add('hidden');
-                resultComplete.classList.remove('hidden');
+            if(radio.checked){
                 
-            }
-            if(radio.value === 'intrest'){
-                monthlyResult.textContent = '£' + ((p*r)/12).toFixed(2); 
-                total.textContent ='£'+ n*((p*r)/12).toFixed(2);
-                resultEmpty.classList.add('hidden');
-                resultComplete.classList.remove('hidden');
+                if(radio.value === 'repayment'){
+                    monthlyResult.textContent = '£' + monthlyPay.toFixed(2);
+                    total.textContent ='£' + termPay.toFixed(2);
+                    resultEmpty.classList.add('hidden');
+                    resultComplete.classList.remove('hidden');
+                
+                }
+                if(radio.value === 'intrest'){
+                    monthlyPay = p * r;
+                    termPay = monthlyPay * n;
+                    monthlyResult.textContent = '£' + monthlyPay.toFixed(2);
+                    total.textContent ='£' + termPay.toFixed(2);
+                    resultEmpty.classList.add('hidden');
+                    resultComplete.classList.remove('hidden');
 
+                }
             }
+
+           
             
         });
         
